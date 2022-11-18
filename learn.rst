@@ -84,6 +84,7 @@ In cpp
 The class operation is a static member function Instance()
 The unique instance is static member variable m_instance, that contains a pointer to Singleton class
 Declaration and implementation of Singleton class is:
+
 .. code:: cpp
 
 	class Singleton {
