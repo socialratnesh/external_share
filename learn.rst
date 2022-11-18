@@ -1,9 +1,9 @@
 
-.. role:: cpp(code)
-	:language: cpp
-
 Singleton Design Pattern
 ========================
+
+.. role:: cpp(code)
+	:language: cpp
 
 Intent
 ------
