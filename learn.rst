@@ -34,7 +34,7 @@ Structure
 Participants
 ------------
 **Singleton**
-Defines an Instance operation that lets clients access its unique instance. Instance is a class operation (a static member function in C++).
+Defines an Instance operation that lets clients access its unique instance. Instance is a class operation (a static member function in cpp).
 
 
 Collaborations
@@ -55,9 +55,9 @@ It avoids polluting the name space with global variables that store sole instanc
 
 More flexible than class operations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Another way to package a singleton's functionality is to use class operations (that is, static member functions in C++).
+Another way to package a singleton's functionality is to use class operations (that is, static member functions in cpp).
 However, this makes it hard to change a design to allow more than one instance of a class.
-Moreover, static member functions in C++ are never virtual, so subclasses cannot override them polymorphically.
+Moreover, static member functions in cpp are never virtual, so subclasses cannot override them polymorphically.
 
 Permits refinement of operations and representation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -77,11 +77,11 @@ Ensuring a unique instance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 The class is written in such a way that only one instance can ever be created.
 A common way to do this is to hide the operation that creates the instance behind a class operation (that is, either a static member function or a class method) that guarantees only one instance is created. This operation has access to the variable that holds the unique instance, and it ensures the variable is initialized with the unique instance before returning its value. This approach ensures that a singleton is created and initialized before its first use.
-In C++
+In cpp
 The class operation is a static member function Instance()
 The unique instance is static member variable m_instance, that contains a pointer to Singleton class
 Declaration and implementation of Singleton class is:
-.. code:: c++
+.. code:: cpp
 	class Singleton {
 		public:
 			static Singleton-	Instance();
@@ -111,7 +111,7 @@ This ensures that only one instance can ever get created.
 Drawback of singleton as a global or static object and then rely on automatic initialization
 * We can't guarantee that only one instance of a static object will ever be declared.
 * We might not have enough information to instantiate every singleton at static initialization time. A singleton might require values that are computed later in the program's execution.
-* C++ does not define the order in which constructors for global objects are called across translation units. This means that no dependencies can exist between singletons; if any do, then errors are inevitable.
+* cpp does not define the order in which constructors for global objects are called across translation units. This means that no dependencies can exist between singletons; if any do, then errors are inevitable.
 * It forces all singletons to be created whether they are used or not.
 Using a static member function avoids all of these problems.
 
@@ -122,7 +122,7 @@ i.	The simplest technique is to determine which singleton you want to use in the
 ii.	Another way to choose the subclass of Singleton is to take the implementation of Instance out of the parent class (e.g. , MazeFactory) and put it in the subclass. Using conditional statements to determine the subclass is more flexible, but it hard-wires the set of possible Singleton classes. 
 iii.	A more flexible approach uses a registry of singletons.
 
-.. code:: c++
+.. code:: cpp
 	Singleton - Singleton::instance() {
 		if(nullptr == instance) {
 			const char - instance_type = getenv("SINGLETON_TYPE");
@@ -173,20 +173,20 @@ Static variables in one translation unit are initialized according to their defi
 
 Meyers Singleton
 ^^^^^^^^^^^^^^^^
-.. code:: c++
+.. code:: cpp
 	static MeyersSingleton& getInstance(){
 		  static MeyersSingleton instance;		// (1)
 		  return instance;
 	}
 
-Static variables with local scope are created when they are used the first time. This lazy initialization is a guarantee that C++98 provides.
+Static variables with local scope are created when they are used the first time. This lazy initialization is a guarantee that cpp98 provides.
 Instead of a static instance of type Singleton, it has a local static of type Singleton.
-Since C++11, static variables with local scope are also initialized in a thread-safe way. This means that the Meyers Singleton does not only solve the static initialization order fiasco, but also guarantees that the Singleton is initialized in a thread-safe way.
+Since cpp11, static variables with local scope are also initialized in a thread-safe way. This means that the Meyers Singleton does not only solve the static initialization order fiasco, but also guarantees that the Singleton is initialized in a thread-safe way.
 
 Hidden Dependency
 ^^^^^^^^^^^^^^^^^
 A Singleton introduces a hidden dependency and breaks, therefore, testability.
-.. code:: c++
+.. code:: cpp
 	void func() {
 	   ...
 	   DataBase::getInstance().update("something");
@@ -195,7 +195,7 @@ A Singleton introduces a hidden dependency and breaks, therefore, testability.
 
 The caller of the function func has no idea that a database is called internally. What are the consequences? The code is no unit anymore and, therefore, not unit-testable. You cannot test this code in isolation.
 Solution, restructure the code.
-.. code:: c++
+.. code:: cpp
 	func(DataBaseSingleton::getInstance());
 	...
 
@@ -208,13 +208,13 @@ Solution, restructure the code.
 Just make the DataBase part of the interface of the function. Now, there is no hidden dependency anymore. The function can be fast and without side effects.
 
 
-Example Singleton in C++: Before and after
+Example Singleton in cpp: Before and after
 ------------------------------------------
 
 Before
 ^^^^^^
 A global variable is default initialized - when it is declared - but it is not initialized in earnest until its first use. This requires that the initialization code be replicated throughout the application.
-..code:: c++
+..code:: cpp
 	#include <iostream>
 	using namespace std;
 	class GlobalClass {
@@ -260,7 +260,7 @@ Output::
 After
 ^^^^^
 Make the class responsible for its own global pointer and "initialization on first use" (by using a private static pointer and a public static accessor method). The client uses only the public accessor method.
-.. code:: c++
+.. code:: cpp
 	#include <iostream>
 	using namespace std;
 	 
