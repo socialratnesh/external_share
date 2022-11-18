@@ -1,4 +1,7 @@
 
+.. role:: cpp(code)
+	:language: cpp
+
 Singleton Design Pattern
 ========================
 
@@ -82,6 +85,7 @@ The class operation is a static member function Instance()
 The unique instance is static member variable m_instance, that contains a pointer to Singleton class
 Declaration and implementation of Singleton class is:
 .. code:: cpp
+
 	class Singleton {
 		public:
 			static Singleton-	Instance();
@@ -97,7 +101,7 @@ Declaration and implementation of Singleton class is:
 
 	Singleton::Singleton() {	}
 
-	Singleton- Singleton::Instance () {
+	Singleton * Singleton::Instance () {
 		if (nullptr == m_instance) {
 			m_instance = new Singleton;
 		}
@@ -123,6 +127,7 @@ ii.	Another way to choose the subclass of Singleton is to take the implementatio
 iii.	A more flexible approach uses a registry of singletons.
 
 .. code:: cpp
+
 	Singleton - Singleton::instance() {
 		if(nullptr == instance) {
 			const char - instance_type = getenv("SINGLETON_TYPE");
@@ -174,6 +179,7 @@ Static variables in one translation unit are initialized according to their defi
 Meyers Singleton
 ^^^^^^^^^^^^^^^^
 .. code:: cpp
+
 	static MeyersSingleton& getInstance(){
 		  static MeyersSingleton instance;		// (1)
 		  return instance;
@@ -187,6 +193,7 @@ Hidden Dependency
 ^^^^^^^^^^^^^^^^^
 A Singleton introduces a hidden dependency and breaks, therefore, testability.
 .. code:: cpp
+
 	void func() {
 	   ...
 	   DataBase::getInstance().update("something");
@@ -196,6 +203,7 @@ A Singleton introduces a hidden dependency and breaks, therefore, testability.
 The caller of the function func has no idea that a database is called internally. What are the consequences? The code is no unit anymore and, therefore, not unit-testable. You cannot test this code in isolation.
 Solution, restructure the code.
 .. code:: cpp
+
 	func(DataBaseSingleton::getInstance());
 	...
 
@@ -215,6 +223,7 @@ Before
 ^^^^^^
 A global variable is default initialized - when it is declared - but it is not initialized in earnest until its first use. This requires that the initialization code be replicated throughout the application.
 ..code:: cpp
+
 	#include <iostream>
 	using namespace std;
 	class GlobalClass {
@@ -261,6 +270,7 @@ After
 ^^^^^
 Make the class responsible for its own global pointer and "initialization on first use" (by using a private static pointer and a public static accessor method). The client uses only the public accessor method.
 .. code:: cpp
+
 	#include <iostream>
 	using namespace std;
 	 
